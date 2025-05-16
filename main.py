@@ -102,3 +102,60 @@ try:
         {"run": char3_run_frames, "jump": char3_jump_frames},
         {"run": char4_run_frames, "jump": char4_jump_frames},
     ]
+
+    selected_character_index = 0  
+    font = pygame.font.Font("assets/font/PixelEmulator3.otf", 30)
+    extra_tile_image = pygame.image.load("assets/terrains/tile_0_18.png")
+    extra_tile_image = pygame.transform.scale(extra_tile_image, (TILE_SIZE, TILE_SIZE))
+    game_over_image = pygame.image.load("assets/background/game over.png")
+    full_game_over_image = pygame.transform.scale(game_over_image, (WIDTH, HEIGHT))
+    restart_button_image = pygame.transform.scale(pygame.image.load("assets/button/reload.png"), (40, 40))
+    restart_button_rect = pygame.Rect(WIDTH - 150, 50, 40, 40)
+    next_level_button_image = pygame.transform.scale(pygame.image.load("assets/button/next_level.png"), (40, 40))
+    next_level_button_rect = pygame.Rect(WIDTH - 200, 50, 40, 40)
+    dark_background = pygame.image.load("assets/background/Pink.png")
+    dark_background = pygame.transform.scale(dark_background, (WIDTH, HEIGHT))
+    home_button_image = pygame.transform.scale(pygame.image.load("assets/button/home.png"), (40, 40))
+    home_button_rect = pygame.Rect(WIDTH - 100, 50, 40, 40)
+    frame_tile_image = pygame.image.load("assets/terrains/tile_0_1.png")
+    frame_tile_image = pygame.transform.scale(
+        pygame.image.load("assets/terrains/tile_0_1.png"),
+        (TILE_SIZE, 20)
+    )
+    frame_tile_image_level2 = pygame.image.load("assets/terrains/tile_8_0.png")
+    frame_tile_image_level2 = pygame.transform.scale(frame_tile_image_level2, (TILE_SIZE, 20))
+    new_enemy_run_frames = slice_sprite_sheet("assets/animals/new_animal/Run (84x38).png", 84, 38, 8)
+    new_enemy_run_frames = [pygame.transform.scale(frame, (60, 60)) for frame in new_enemy_run_frames]
+    new_enemy_left_frames = [pygame.transform.flip(frame, True, False) for frame in new_enemy_run_frames]
+    strawberry_frame_paths = [f"assets/fruits/strawberry/Strawberry.png"]
+    strawberry_frames = slice_sprite_sheet(strawberry_frame_paths[0], 32, 32, 17)
+    strawberry_frames = [pygame.transform.scale(frame, (70, 60)) for frame in strawberry_frames]
+    PLATFORM_HEIGHT = 10  
+    platform_tile_image = pygame.transform.scale(
+        pygame.image.load("assets/terrains/Grey Off.png"),
+        (TILE_SIZE, PLATFORM_HEIGHT)
+    )
+    player_frames_paths = [
+        "assets/characters/virtual guy/sprite_1.png",
+        "assets/characters/virtual guy/sprite_2.png",
+        "assets/characters/virtual guy/sprite_3.png",
+        "assets/characters/virtual guy/sprite_4.png",
+        "assets/characters/virtual guy/sprite_5.png",
+        "assets/characters/virtual guy/sprite_6.png",
+        "assets/characters/virtual guy/sprite_7.png",
+        "assets/characters/virtual guy/sprite_8.png",
+        "assets/characters/virtual guy/sprite_9.png",
+        "assets/characters/virtual guy/sprite_10.png",
+        "assets/characters/virtual guy/sprite_11.png",
+        "assets/characters/virtual guy/sprite_12.png",
+    ]
+    player_right_frames = [pygame.transform.scale(pygame.image.load(p), (40, 40)) for p in player_frames_paths]
+    player_left_frames = [pygame.transform.flip(frame, True, False) for frame in player_right_frames]
+
+    player_frame_index = 0
+    player_animation_speed = 0.5
+
+except pygame.error as e:
+    print(f"Görseller yüklenemedi: {e}")
+    pygame.quit()
+    sys.exit()
