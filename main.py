@@ -213,3 +213,57 @@ chicken_right_frames = [pygame.transform.scale(pygame.image.load(p), (40, 40)) f
 chicken_left_frames =[pygame.transform.flip(frame, True, False) for frame in chicken_right_frames]
 chicken_animation_speed = 0.4  
 
+flag_frame_paths = [
+    "assets/flag/flag_frame_1.png",
+    "assets/flag/flag_frame_2.png",
+    "assets/flag/flag_frame_3.png",
+    "assets/flag/flag_frame_4.png",
+    "assets/flag/flag_frame_5.png",
+    "assets/flag/flag_frame_6.png",
+    "assets/flag/flag_frame_7.png",
+    "assets/flag/flag_frame_8.png",
+    "assets/flag/flag_frame_9.png",
+    "assets/flag/flag_frame_10.png",
+]
+flag_frames = [pygame.transform.scale(pygame.image.load(p), (60, 90)) for p in flag_frame_paths]
+flag_frame_index = 0
+flag_animation_speed = 0.2
+
+def draw_frame(surface):
+    if current_level_index == 1:
+        
+        for x in range(0, WIDTH, TILE_SIZE):
+            surface.blit(frame_tile_image_level2, (x, 0))
+            surface.blit(frame_tile_image_level2, (x, HEIGHT - 20))
+
+        for y in range(0, HEIGHT, TILE_SIZE):
+            surface.blit(pygame.transform.rotate(frame_tile_image_level2, 90), (0, y))
+            surface.blit(pygame.transform.rotate(frame_tile_image_level2, -90), (WIDTH - 20, y))
+    elif current_level_index == 0 :
+        
+        for x in range(0, WIDTH, TILE_SIZE):
+            surface.blit(frame_tile_image, (x, 0))
+            surface.blit(frame_tile_image, (x, HEIGHT - 20))
+        for y in range(0, HEIGHT, TILE_SIZE):
+            surface.blit(pygame.transform.rotate(frame_tile_image, 90), (0, y))
+            surface.blit(pygame.transform.rotate(frame_tile_image, -90), (WIDTH - 20, y))
+
+def draw_extra_tiles():
+    global extra_tile_platforms  
+    extra_tile_platforms = []    
+
+    for i in range(2):
+        x = 6 * TILE_SIZE + i * TILE_SIZE
+        y = HEIGHT - 11 * TILE_SIZE
+        screen.blit(extra_tile_image, (x, y))
+        extra_tile_platforms.append(pygame.Rect(x, y, TILE_SIZE, 1))
+
+    for i in range(2):
+        x = (15 - 2 + i) * TILE_SIZE
+        y1 = HEIGHT - 13 * TILE_SIZE
+        y2 = HEIGHT - 7 * TILE_SIZE
+        screen.blit(extra_tile_image, (x, y1))
+        extra_tile_platforms.append(pygame.Rect(x, y1, TILE_SIZE, TILE_SIZE))
+        screen.blit(extra_tile_image, (x, y2))
+        extra_tile_platforms.append(pygame.Rect(x, y2, TILE_SIZE, TILE_SIZE))
+
