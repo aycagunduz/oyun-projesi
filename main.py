@@ -159,3 +159,57 @@ except pygame.error as e:
     print(f"Görseller yüklenemedi: {e}")
     pygame.quit()
     sys.exit()
+    jump_sound = pygame.mixer.Sound("assets\sound\jump_01.wav")
+dj_sound = pygame.mixer.Sound("assets\sound\dj.ogg")
+
+jump_sound.set_volume(1.0) 
+dj_sound.set_volume(0.3) 
+flag = pygame.Rect(WIDTH - 100, HEIGHT - TILE_SIZE - 70, 60, 90)
+
+player_direction_right = True
+
+carrot_frame_index = 0
+carrot_animation_speed = 0.15  
+carrot_frames = pineapple_frames 
+
+apple_animation_speed = 0.3  
+
+
+enemy_right_frames_paths = [
+    "assets/animals/rabbit/rabbit_sprite_1.png",
+    "assets/animals/rabbit/rabbit_sprite_3.png",
+    "assets/animals/rabbit/rabbit_sprite_4.png",
+    "assets/animals/rabbit/rabbit_sprite_5.png",
+    "assets/animals/rabbit/rabbit_sprite_6.png",
+    "assets/animals/rabbit/rabbit_sprite_7.png",
+    "assets/animals/rabbit/rabbit_sprite_8.png",
+    "assets/animals/rabbit/rabbit_sprite_10.png",
+    "assets/animals/rabbit/rabbit_sprite_11.png",
+    "assets/animals/rabbit/rabbit_sprite_12.png",
+]
+enemy_right_frames = [pygame.transform.scale(pygame.image.load(p), (40, 40)) for p in enemy_right_frames_paths]
+
+enemy_left_frames_paths =[ 
+    "assets/animals/rabbit/flipped_rabbit_sprites/flipped_rabbit_sprite_1.png",
+    "assets/animals/rabbit/flipped_rabbit_sprites/flipped_rabbit_sprite_3.png",
+    "assets/animals/rabbit/flipped_rabbit_sprites/flipped_rabbit_sprite_4.png",
+    "assets/animals/rabbit/flipped_rabbit_sprites/flipped_rabbit_sprite_5.png",
+    "assets/animals/rabbit/flipped_rabbit_sprites/flipped_rabbit_sprite_6.png",
+    "assets/animals/rabbit/flipped_rabbit_sprites/flipped_rabbit_sprite_7.png",
+    "assets/animals/rabbit/flipped_rabbit_sprites/flipped_rabbit_sprite_8.png",
+    "assets/animals/rabbit/flipped_rabbit_sprites/flipped_rabbit_sprite_10.png",
+    "assets/animals/rabbit/flipped_rabbit_sprites/flipped_rabbit_sprite_11.png",
+    "assets/animals/rabbit/flipped_rabbit_sprites/flipped_rabbit_sprite_12.png",
+]
+enemy_left_frames = [pygame.transform.scale(pygame.image.load(p), (40, 40)) for p in enemy_left_frames_paths]
+enemy_frame_index = 0
+enemy_animation_speed = 0.15
+
+
+chicken_right_frames_paths = [
+f"assets/animals/chicken/chicken_frame_{i+1}.png" for i in range(1, 10)
+]
+chicken_right_frames = [pygame.transform.scale(pygame.image.load(p), (40, 40)) for p in chicken_right_frames_paths]
+chicken_left_frames =[pygame.transform.flip(frame, True, False) for frame in chicken_right_frames]
+chicken_animation_speed = 0.4  
+
