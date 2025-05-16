@@ -71,3 +71,34 @@ try:
         pineapple_frames.append(img)
 
     
+    apple_frame_paths = [
+        f"assets/fruits/apple/apple_frame_{i+1}.png" for i in range(17)
+    ]
+
+    apple_frames = []
+    for p in apple_frame_paths:
+        img = pygame.image.load(p).convert_alpha()
+        img = pygame.transform.scale(img, (50, 50))  
+        apple_frames.append(img)
+
+   
+    char1_run_frames = slice_sprite_sheet("assets/characters/mask dude/Run (32x32).png", 32, 32, 6)
+    char1_jump_frames = slice_sprite_sheet("assets/characters/mask dude/Double Jump (32x32).png", 32, 32, 6)
+
+   
+    char2_run_frames = slice_sprite_sheet("assets/characters/ninja frog/Run2(32x32).png", 32, 32, 12)
+    char2_jump_frames = slice_sprite_sheet("assets/characters/ninja frog/Double Jump2 (32x32).png", 32, 32, 6)
+
+    
+    char3_run_frames = slice_sprite_sheet("assets/characters/pink man/Run 3(32x32).png", 32, 32, 6)
+    char3_jump_frames = slice_sprite_sheet("assets/characters/pink man/Double Jump 3(32x32).png", 32, 32, 6)
+
+    
+    char4_run_frames = slice_sprite_sheet("assets/characters/virtual guy/Run4(32x32).png", 32, 32, 12)
+    char4_jump_frames = slice_sprite_sheet("assets/characters/virtual guy/Double Jump 4(32x32).png", 32, 32, 6)
+    character_sets = [
+        {"run": char1_run_frames, "jump": char1_jump_frames},
+        {"run": char2_run_frames, "jump": char2_jump_frames},
+        {"run": char3_run_frames, "jump": char3_jump_frames},
+        {"run": char4_run_frames, "jump": char4_jump_frames},
+    ]
