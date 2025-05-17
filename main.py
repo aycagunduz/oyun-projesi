@@ -545,3 +545,83 @@ original_level_data = copy.deepcopy(levels[current_level_index])
 enemy_directions = [1 for _ in enemies]
 collected_fruits = 0
 total_fruits = len(fruits)
+while True:
+    
+   
+    if current_level_index == 2:
+        target_platform = platforms[4]  
+        flag.x = target_platform.centerx - flag.width // 2
+        flag.y = target_platform.top - flag.height
+    
+
+    for event in pygame.event.get():    
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if restart_button_rect.collidepoint(event.pos):
+                lives = 3
+
+                
+                levels[current_level_index] = copy.deepcopy(original_level_data)
+                platforms, walls, fruits, enemies, enemy_ranges, platform_movements = load_level(current_level_index)
+
+                
+                enemy_directions = [1 for _ in enemies]
+                player.x, player.y = 1 * TILE_SIZE, HEIGHT - 3 * TILE_SIZE
+                collected_fruits = 0
+                total_fruits = len(fruits)
+                flag.x = WIDTH - 100
+                flag.y = HEIGHT - TILE_SIZE - 70
+
+                
+                player_frame_index = 0
+                carrot_frame_index = 0
+                enemy_frame_index = 0
+                flag_frame_index = 0
+
+                game_over = False
+                win = False
+            elif home_button_rect.collidepoint(event.pos):
+                lives = 3
+                show_start_screen()
+                current_level_index = 0
+
+                
+                levels[current_level_index] = copy.deepcopy(original_level_data)
+                platforms, walls, fruits, enemies, enemy_ranges, platform_movements = load_level(current_level_index)
+
+                enemy_directions = [1 for _ in enemies]
+                player.x, player.y = 1 * TILE_SIZE, HEIGHT - 3 * TILE_SIZE
+                collected_fruits = 0
+                total_fruits = len(fruits)
+                flag.x = WIDTH - 100
+                flag.y = HEIGHT - TILE_SIZE - 70
+
+                
+                player_frame_index = 0
+                carrot_frame_index = 0
+                enemy_frame_index = 0
+                flag_frame_index = 0
+
+                game_over = False
+                win = False
+
+            elif next_level_button_rect.collidepoint(event.pos):
+                current_level_index += 1
+                if current_level_index < len(levels):
+                    platforms, walls, fruits, enemies, enemy_ranges, platform_movements = load_level(current_level_index)
+                    enemy_directions = [1 for _ in enemies]
+                    player.x, player.y = 1 * TILE_SIZE, HEIGHT - 3 * TILE_SIZE
+                    collected_fruits = 0
+                    total_fruits = len(fruits)
+                    game_over = False
+                    win = False
+
+                    
+                    if current_level_index == 2:
+                        flag.x = 17 * TILE_SIZE
+                        flag.y = HEIGHT - 3 * TILE_SIZE - flag.height  
+                else:
+                    win = True
+
