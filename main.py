@@ -267,3 +267,54 @@ def draw_extra_tiles():
         screen.blit(extra_tile_image, (x, y2))
         extra_tile_platforms.append(pygame.Rect(x, y2, TILE_SIZE, TILE_SIZE))
 
+def draw_tunnel_platform(plat):
+    rows = max(1, plat.height // TILE_SIZE)  
+    cols = max(1, plat.width // TILE_SIZE)
+
+    for row in range(rows):
+        for col in range(cols):
+            if plat.x == 0 and plat.y == HEIGHT - 3 * TILE_SIZE and row == 1 and col == 1:
+                tile = tunnel_fill_image  # Kum
+            elif row == 0:
+                tile = tunnel_top_image  # Tavan
+            else:
+                tile = tunnel_fill_image  # Kum
+            screen.blit(tile, (plat.x + col * TILE_SIZE, plat.y + row * TILE_SIZE))
+
+def show_start_screen():
+    background = pygame.image.load("assets/background/start screen.png")
+    background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+
+    button_rect = pygame.Rect(WIDTH // 2 - 150, HEIGHT - 180, 300, 80)
+
+    main_text = font.render("PLAY", True, (255, 255, 255))
+    shadow_text = font.render("PLAY", True, (0, 0, 0))
+
+    while True:
+        screen.blit(background, (0, 0))
+        button_surface = pygame.Surface((button_rect.width, button_rect.height), pygame.SRCALPHA)
+        button_surface.fill((255, 105, 180, 0)) 
+        screen.blit(button_surface, button_rect.topleft)
+
+        text_rect = main_text.get_rect(center=button_rect.center)
+        shadow_rect = text_rect.copy()
+        shadow_rect.x += 2  
+        shadow_rect.y += 2  
+
+        screen.blit(shadow_text, shadow_rect)  
+        screen.blit(main_text, text_rect)      # 
+
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if button_rect.collidepoint(event.pos):
+                    return
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    return
+
+        clock.tick(FPS)
