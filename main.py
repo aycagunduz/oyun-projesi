@@ -773,3 +773,91 @@ while True:
             elif player.left < wall.right and player.right > wall.right:
                 player.left = wall.right 
 
+    for i, enemy in enumerate(enemies):
+        
+        if current_level_index == 1:
+            enemy.x += enemy_directions[i] * 4  
+        elif current_level_index == 2:
+            enemy.x += enemy_directions[i] * 3 
+        else:
+            enemy.x += enemy_directions[i] * 1  
+
+
+        if enemy.x < enemy_ranges[i][0] or enemy.x > enemy_ranges[i][1]:
+            enemy_directions[i] *= -1
+
+
+    for enemy in enemies:
+        
+        distance = ((player.centerx - enemy.centerx) ** 2 + (player.centery - enemy.centery) ** 2) ** 0.5
+        if distance < 15:  
+            lives -= 1
+            pygame.time.delay(1000)
+            player.x, player.y = 1 * TILE_SIZE, HEIGHT - 3 * TILE_SIZE
+            if lives <= 0:
+                game_over = True
+
+    for fruit in fruits[:]:
+        if player.colliderect(fruit):
+            fruits.remove(fruit)
+            collected_fruits += 1
+
+    if not fruits and player.colliderect(flag):
+        if current_level_index + 1 < len(levels):
+            current_level_index += 1
+            platforms, walls, fruits, enemies, enemy_ranges, platform_movements = load_level(current_level_index)
+            enemy_directions = [1 for _ in enemies]
+            player.x, player.y = 1 * TILE_SIZE, HEIGHT - 3 * TILE_SIZE
+            collected_fruits = 0
+            total_fruits = len(fruits)
+        else:
+            win = True
+            continue  
+
+
+
+    if player.colliderect(flag) and fruits:
+        info_text = font.render("Önce tüm meyveleri topla!", True, WHITE)
+        screen.blit(info_text, (WIDTH // 2 - info_text.get_width() // 2, HEIGHT // 2 - 50))
+    elif player.colliderect(flag) and not fruits:
+        current_level_index += 1
+        if current_level_index < len(levels):
+            platforms, walls, fruits, enemies, enemy_ranges, platform_movements = load_level(current_level_index)
+            enemy_directions = [1 for _ in enemies]
+            player.x, player.y = 1 * TILE_SIZE, HEIGHT - 3 * TILE_SIZE
+            collected_fruits = 0
+            total_fruits = len(fruits)
+           
+        else:
+            win = True
+
+    if current_level_index == 1:
+        enemy_frame_index += chicken_animation_speed
+        if enemy_frame_index >= len(chicken_right_frames):
+            enemy_frame_index = 0
+    else:
+        enemy_frame_index += enemy_animation_speed
+        if enemy_frame_index >= len(enemy_right_frames):
+            enemy_frame_index = 0
+
+
+    if keys[pygame.K_LEFT] or keys[pygame.K_RIGHT]:
+        player_frame_index += player_animation_speed
+        if player_frame_index >= len(player_right_frames):
+            player_frame_index = 0
+
+    if current_level_index == 1:
+        carrot_frame_index += apple_animation_speed
+        if carrot_frame_index >= len(apple_frames):
+            carrot_frame_index = 0
+    else:
+        carrot_frame_index += carrot_animation_speed
+        if carrot_frame_index >= len(carrot_frames):
+            carrot_frame_index = 0
+
+    if current_level_index == 1:
+        screen.blit(level2_background, (0, 0))
+    elif current_level_index == 2:
+        screen.blit(dark_background, (0, 0))
+    else:
+        screen.blit(game_background, (0, 0))
