@@ -318,3 +318,57 @@ def show_start_screen():
                     return
 
         clock.tick(FPS)
+def show_character_selection_screen():
+    global selected_character_index
+
+    selecting = True
+    current_frame_index = 0
+    animation_speed = 0.2
+
+    while selecting:
+        screen.fill(BLACK)
+        title_text = font.render("Karakter Seçimi!", True, WHITE)
+        screen.blit(title_text, (WIDTH // 2 - title_text.get_width() // 2, 50))
+
+        for idx, frameset in enumerate(character_sets):
+            frame = frameset["run"][int(current_frame_index) % len(frameset["run"])]
+            big_frame = pygame.transform.scale(frame, (80, 80)) 
+            frame_x = WIDTH // 5 * (idx + 1) - frame.get_width() // 2
+            frame_y = HEIGHT // 2 - frame.get_height() // 2
+            screen.blit(big_frame, (frame_x, frame_y))
+
+            if idx == selected_character_index:
+                pygame.draw.rect(screen, RED, (frame_x - 5, frame_y - 5, big_frame.get_width() + 10, big_frame.get_height() + 10), 3)
+
+        info_text = font.render("<- / -> ile seç, Enter ile onayla", True, WHITE)
+        screen.blit(info_text, (WIDTH // 2 - info_text.get_width() // 2, HEIGHT - 100))
+
+        pygame.display.flip()
+        clock.tick(FPS)
+
+        current_frame_index += animation_speed
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    selected_character_index = (selected_character_index - 1) % len(character_sets)
+                elif event.key == pygame.K_RIGHT:
+                    selected_character_index = (selected_character_index + 1) % len(character_sets)
+                elif event.key == pygame.K_RETURN:
+                    selecting = False
+
+def draw_darkness_overlay(player_rect):
+    darkness_surface = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+    darkness_surface.fill((0, 0, 0, 220)) 
+
+    light_radius = 150 
+    light_center = (player_rect.centerx, player_rect.centery)
+
+    pygame.draw.circle(darkness_surface, (0, 0, 0, 0), light_center, light_radius)
+
+    screen.blit(darkness_surface, (0, 0))
+
+
