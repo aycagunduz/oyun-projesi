@@ -699,3 +699,77 @@ while True:
             if plat.x < movement["range"][0] or plat.x + plat.width > movement["range"][1]:
                 movement["direction"] *= -1
 
+    current_time = pygame.time.get_ticks()
+
+    if keys[pygame.K_SPACE]:
+        if not jump_pressed:
+            if jump_count == 0:
+                velocity_y = -18
+                jumping = True
+                jump_count = 1
+                jump_pressed_time = current_time
+                jump_sound.play() 
+            elif jump_count == 1 and current_time - jump_pressed_time <= DOUBLE_JUMP_DELAY:
+                velocity_y = -18
+                jumping = True
+                jump_count = 2
+                jump_sound.play() 
+            jump_pressed = True
+
+    else:
+        jump_pressed = False
+
+    velocity_y += gravity
+    player.y += velocity_y
+    if player.colliderect(floor):
+        player.y = floor.top - player.height
+        velocity_y = 0
+        jumping = False
+        jump_count = 0
+    for plat in platforms:
+        if player.colliderect(plat):
+            if velocity_y > 0:
+                player.y = plat.top - player.height
+                velocity_y = 0
+                jumping = False
+                jump_count = 0
+                jump_pressed_time = 0  
+
+            elif velocity_y < 0: 
+                player.y = plat.bottom
+                velocity_y = 0  
+    for border in frame_collision_rects:
+        if player.colliderect(border):
+          
+            if player.right > border.left and player.left < border.left:
+                player.right = border.left
+            elif player.left < border.right and player.right > border.right:
+                player.left = border.right
+            if player.top < border.bottom and player.bottom > border.bottom:
+                player.top = border.bottom
+                velocity_y = 0
+            elif player.bottom > border.top and player.top < border.top:
+                player.bottom = border.top
+                velocity_y = 0
+                jumping = False
+                jump_count = 0
+
+
+    for extra_plat in extra_tile_platforms:
+        if player.colliderect(extra_plat):
+            if velocity_y > 0:
+                player.y = extra_plat.top - player.height
+                velocity_y = 0
+                jumping = False
+                jump_count = 0
+                jump_pressed_time = 0
+            elif velocity_y < 0:
+                player.y = extra_plat.bottom
+                velocity_y = 0
+    for wall in walls:
+        if player.colliderect(wall):
+            if player.right > wall.left and player.left < wall.left:
+                player.right = wall.left
+            elif player.left < wall.right and player.right > wall.right:
+                player.left = wall.right 
+
