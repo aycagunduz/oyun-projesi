@@ -432,3 +432,59 @@ levels = [
     ]
 
 } , 
+{
+    "platforms": [
+        pygame.Rect(0, HEIGHT - TILE_SIZE, 22 * TILE_SIZE, TILE_SIZE),  # Alt zemin
+        pygame.Rect(2 * TILE_SIZE, HEIGHT - 6 * TILE_SIZE, 4 * TILE_SIZE, 2 * TILE_SIZE),  # Sol orta
+        pygame.Rect(16 * TILE_SIZE, HEIGHT - 6 * TILE_SIZE, 4 * TILE_SIZE, 2 * TILE_SIZE),  # Sağ orta
+        pygame.Rect(8 * TILE_SIZE, HEIGHT - 10 * TILE_SIZE, 6 * TILE_SIZE, 2 * TILE_SIZE),  # Orta üst
+        pygame.Rect(10 * TILE_SIZE, HEIGHT - 14 * TILE_SIZE, 2 * TILE_SIZE, 2 * TILE_SIZE),  # En üst
+    ],
+    "walls": [
+        pygame.Rect(11 * TILE_SIZE, HEIGHT - 4 * TILE_SIZE, TILE_SIZE, 2 * TILE_SIZE),  # Alt engel
+        pygame.Rect(5 * TILE_SIZE, HEIGHT - 6 * TILE_SIZE, TILE_SIZE, 4 * TILE_SIZE),   # Orta 
+        pygame.Rect(17 * TILE_SIZE, HEIGHT - 6 * TILE_SIZE, TILE_SIZE, 4 * TILE_SIZE),  # Sağ 
+    ],
+    "fruits": [
+        pygame.Rect(3 * TILE_SIZE, HEIGHT - 7 * TILE_SIZE, 30, 30),   # Sol orta
+        pygame.Rect(17 * TILE_SIZE, HEIGHT - 7 * TILE_SIZE, 30, 30),  # Sağ orta
+        pygame.Rect(9 * TILE_SIZE, HEIGHT - 11 * TILE_SIZE, 30, 30),  # Orta üst
+        pygame.Rect(11 * TILE_SIZE, HEIGHT - 15 * TILE_SIZE, 30, 30), # En üst
+    ],
+    "enemies": [
+        pygame.Rect(5 * TILE_SIZE, HEIGHT - TILE_SIZE - 55, 80, 80),      # Alt zemin 
+        pygame.Rect(9 * TILE_SIZE, HEIGHT - 10 * TILE_SIZE - 55, 80, 80),  # Orta üst
+        #pygame.Rect(10 * TILE_SIZE, HEIGHT - 14 * TILE_SIZE - 55, 80, 80), # En üst 
+    ],
+
+    "enemy_ranges": [
+        (0, 15 * TILE_SIZE),                     
+        (8 * TILE_SIZE, 13 * TILE_SIZE),         
+        #(10 * TILE_SIZE, 11 * TILE_SIZE),        
+    ],
+},
+]
+def load_level(level_index):
+    level_data = levels[level_index]
+    platforms = level_data["platforms"]
+    walls = level_data.get("walls", [])
+    fruits = level_data["fruits"]
+    enemies = level_data["enemies"]
+    enemy_ranges = level_data["enemy_ranges"]
+    platform_movements = level_data.get("platform_movements", [None for _ in platforms])
+
+    if not enemy_ranges and enemies:
+        enemy_ranges = []
+        for enemy in enemies:
+            for plat in platforms:
+                if plat.y == enemy.y + enemy.height:  
+                    enemy_ranges.append((plat.x, plat.x + plat.width))
+                    break
+    return platforms, walls, fruits, enemies, enemy_ranges, platform_movements
+
+frame_collision_rects = [
+    pygame.Rect(0, 0, WIDTH, 10),                    # Üst kenar
+    pygame.Rect(0, HEIGHT - 10, WIDTH, 10),          # Alt kenar
+    pygame.Rect(0, 0, 10, HEIGHT),                   # Sol kenar
+    pygame.Rect(WIDTH - 10, 0, 10, HEIGHT)           # Sağ kenar
+]
