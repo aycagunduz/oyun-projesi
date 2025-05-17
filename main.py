@@ -372,3 +372,63 @@ def draw_darkness_overlay(player_rect):
     screen.blit(darkness_surface, (0, 0))
 
 
+
+levels = [
+{  
+    "platforms": [
+    pygame.Rect(3 * TILE_SIZE, HEIGHT - 4 * TILE_SIZE, 5 * TILE_SIZE, 10),
+    pygame.Rect(9 * TILE_SIZE, HEIGHT - 7 * TILE_SIZE, 5 * TILE_SIZE, 10),
+    pygame.Rect(15 * TILE_SIZE, HEIGHT - 10 * TILE_SIZE, 5 * TILE_SIZE, 10),
+    ],
+    "platform_movements": [
+        None,
+        None,
+        {"direction": 1, "speed": 2, "range": (3 * TILE_SIZE, 20 * TILE_SIZE)},  
+    ],
+    "fruits": [
+        pygame.Rect(4 * TILE_SIZE, HEIGHT - 5 * TILE_SIZE, 30, 30),
+        pygame.Rect(10 * TILE_SIZE, HEIGHT - 8 * TILE_SIZE, 30, 30),
+        pygame.Rect(16 * TILE_SIZE, HEIGHT - 11 * TILE_SIZE, 30, 30),
+    ],
+    "enemies": [
+        pygame.Rect(5 * TILE_SIZE, HEIGHT - 5 * TILE_SIZE, 40, 40),
+        pygame.Rect(11 * TILE_SIZE, HEIGHT - 8 * TILE_SIZE, 40, 40),
+    ],
+    "enemy_ranges": [
+        (3 * TILE_SIZE, 7 * TILE_SIZE),
+        (9 * TILE_SIZE, 13 * TILE_SIZE),
+    ]
+},
+
+{  
+    "platforms": [ 
+        pygame.Rect(0, HEIGHT - 5* TILE_SIZE , 10 * TILE_SIZE, 20* TILE_SIZE),  
+        pygame.Rect(15 * TILE_SIZE, HEIGHT - 7 * TILE_SIZE, 10 * TILE_SIZE , 2 * TILE_SIZE),  
+        
+        pygame.Rect(0, HEIGHT - 11 * TILE_SIZE, 6 * TILE_SIZE, 2 * TILE_SIZE), 
+        pygame.Rect(15 * TILE_SIZE, HEIGHT - 13 * TILE_SIZE, 7 * TILE_SIZE, 2 * TILE_SIZE)
+    ],
+    "walls": [
+        pygame.Rect(20 * TILE_SIZE, HEIGHT - 3 * TILE_SIZE, 10, 2 * TILE_SIZE),
+        pygame.Rect(10 * TILE_SIZE, HEIGHT - 5 * TILE_SIZE, 10, 4 * TILE_SIZE),
+    ],
+    "fruits": [
+        pygame.Rect(1 * TILE_SIZE, HEIGHT - 6 * TILE_SIZE - 40, 30, 30),  
+        pygame.Rect(3 * TILE_SIZE, HEIGHT - 6 * TILE_SIZE - 40, 30, 30),  
+        pygame.Rect(5 * TILE_SIZE, HEIGHT - 6 * TILE_SIZE - 40, 30, 30),  
+        pygame.Rect(13 * TILE_SIZE, HEIGHT - 8 * TILE_SIZE - 40, 30, 30), 
+        pygame.Rect(15 * TILE_SIZE, HEIGHT - 8 * TILE_SIZE - 40, 30, 30), 
+        pygame.Rect(17 * TILE_SIZE, HEIGHT - 8 * TILE_SIZE - 40, 30, 30), 
+        pygame.Rect(16 * TILE_SIZE, HEIGHT - 13 * TILE_SIZE - 40, 30, 30),
+        pygame.Rect(18 * TILE_SIZE, HEIGHT - 13 * TILE_SIZE - 40, 30, 30),
+    ],
+   "enemies": [
+        pygame.Rect(15 * TILE_SIZE, HEIGHT - 8 * TILE_SIZE, 40, 40),  
+        pygame.Rect(15 * TILE_SIZE, HEIGHT - 13 * TILE_SIZE - 40, 40, 40),
+    ],
+    "enemy_ranges": [
+        (15 * TILE_SIZE, 21 * TILE_SIZE),
+        (15 * TILE_SIZE, 21 * TILE_SIZE),  
+    ]
+
+} , 
