@@ -274,11 +274,11 @@ def draw_tunnel_platform(plat):
     for row in range(rows):
         for col in range(cols):
             if plat.x == 0 and plat.y == HEIGHT - 3 * TILE_SIZE and row == 1 and col == 1:
-                tile = tunnel_fill_image  # Kum
+                tile = tunnel_fill_image 
             elif row == 0:
-                tile = tunnel_top_image  # Tavan
+                tile = tunnel_top_image 
             else:
-                tile = tunnel_fill_image  # Kum
+                tile = tunnel_fill_image  
             screen.blit(tile, (plat.x + col * TILE_SIZE, plat.y + row * TILE_SIZE))
 
 def show_start_screen():
@@ -435,32 +435,30 @@ levels = [
 {
     "platforms": [
         pygame.Rect(0, HEIGHT - TILE_SIZE, 22 * TILE_SIZE, TILE_SIZE),  # Alt zemin
-        pygame.Rect(2 * TILE_SIZE, HEIGHT - 6 * TILE_SIZE, 4 * TILE_SIZE, 2 * TILE_SIZE),  # Sol orta
-        pygame.Rect(16 * TILE_SIZE, HEIGHT - 6 * TILE_SIZE, 4 * TILE_SIZE, 2 * TILE_SIZE),  # Sağ orta
-        pygame.Rect(8 * TILE_SIZE, HEIGHT - 10 * TILE_SIZE, 6 * TILE_SIZE, 2 * TILE_SIZE),  # Orta üst
-        pygame.Rect(10 * TILE_SIZE, HEIGHT - 14 * TILE_SIZE, 2 * TILE_SIZE, 2 * TILE_SIZE),  # En üst
+        pygame.Rect(2 * TILE_SIZE, HEIGHT - 6 * TILE_SIZE, 4 * TILE_SIZE, 2 * TILE_SIZE),  
+        pygame.Rect(16 * TILE_SIZE, HEIGHT - 6 * TILE_SIZE, 4 * TILE_SIZE, 2 * TILE_SIZE),  
+        pygame.Rect(8 * TILE_SIZE, HEIGHT - 10 * TILE_SIZE, 6 * TILE_SIZE, 2 * TILE_SIZE),  
+        pygame.Rect(10 * TILE_SIZE, HEIGHT - 14 * TILE_SIZE, 2 * TILE_SIZE, 2 * TILE_SIZE),  
     ],
     "walls": [
-        pygame.Rect(11 * TILE_SIZE, HEIGHT - 4 * TILE_SIZE, TILE_SIZE, 2 * TILE_SIZE),  # Alt engel
-        pygame.Rect(5 * TILE_SIZE, HEIGHT - 6 * TILE_SIZE, TILE_SIZE, 4 * TILE_SIZE),   # Orta 
-        pygame.Rect(17 * TILE_SIZE, HEIGHT - 6 * TILE_SIZE, TILE_SIZE, 4 * TILE_SIZE),  # Sağ 
+        pygame.Rect(11 * TILE_SIZE, HEIGHT - 4 * TILE_SIZE, TILE_SIZE, 2 * TILE_SIZE), 
+        pygame.Rect(5 * TILE_SIZE, HEIGHT - 6 * TILE_SIZE, TILE_SIZE, 4 * TILE_SIZE),   
+        pygame.Rect(17 * TILE_SIZE, HEIGHT - 6 * TILE_SIZE, TILE_SIZE, 4 * TILE_SIZE),  
     ],
     "fruits": [
-        pygame.Rect(3 * TILE_SIZE, HEIGHT - 7 * TILE_SIZE, 30, 30),   # Sol orta
-        pygame.Rect(17 * TILE_SIZE, HEIGHT - 7 * TILE_SIZE, 30, 30),  # Sağ orta
-        pygame.Rect(9 * TILE_SIZE, HEIGHT - 11 * TILE_SIZE, 30, 30),  # Orta üst
-        pygame.Rect(11 * TILE_SIZE, HEIGHT - 15 * TILE_SIZE, 30, 30), # En üst
+        pygame.Rect(3 * TILE_SIZE, HEIGHT - 7 * TILE_SIZE, 30, 30),   
+        pygame.Rect(17 * TILE_SIZE, HEIGHT - 7 * TILE_SIZE, 30, 30),  
+        pygame.Rect(9 * TILE_SIZE, HEIGHT - 11 * TILE_SIZE, 30, 30),  
+        pygame.Rect(11 * TILE_SIZE, HEIGHT - 15 * TILE_SIZE, 30, 30), 
     ],
     "enemies": [
-        pygame.Rect(5 * TILE_SIZE, HEIGHT - TILE_SIZE - 55, 80, 80),      # Alt zemin 
-        pygame.Rect(9 * TILE_SIZE, HEIGHT - 10 * TILE_SIZE - 55, 80, 80),  # Orta üst
-        #pygame.Rect(10 * TILE_SIZE, HEIGHT - 14 * TILE_SIZE - 55, 80, 80), # En üst 
+        pygame.Rect(5 * TILE_SIZE, HEIGHT - TILE_SIZE - 55, 80, 80),    
+        pygame.Rect(9 * TILE_SIZE, HEIGHT - 10 * TILE_SIZE - 55, 80, 80),  
     ],
 
     "enemy_ranges": [
         (0, 15 * TILE_SIZE),                     
-        (8 * TILE_SIZE, 13 * TILE_SIZE),         
-        #(10 * TILE_SIZE, 11 * TILE_SIZE),        
+        (8 * TILE_SIZE, 13 * TILE_SIZE),              
     ],
 },
 ]
@@ -483,8 +481,67 @@ def load_level(level_index):
     return platforms, walls, fruits, enemies, enemy_ranges, platform_movements
 
 frame_collision_rects = [
-    pygame.Rect(0, 0, WIDTH, 10),                    # Üst kenar
-    pygame.Rect(0, HEIGHT - 10, WIDTH, 10),          # Alt kenar
-    pygame.Rect(0, 0, 10, HEIGHT),                   # Sol kenar
-    pygame.Rect(WIDTH - 10, 0, 10, HEIGHT)           # Sağ kenar
+    pygame.Rect(0, 0, WIDTH, 10),                   
+    pygame.Rect(0, HEIGHT - 10, WIDTH, 10),          
+    pygame.Rect(0, 0, 10, HEIGHT),                 
+    pygame.Rect(WIDTH - 10, 0, 10, HEIGHT)          
 ]
+player = pygame.Rect(1 * TILE_SIZE, HEIGHT - 3 * TILE_SIZE, TILE_SIZE, TILE_SIZE)
+jump_count = 0
+MAX_JUMPS = 2
+jump_pressed = False
+player_speed = 8
+gravity = 1
+velocity_y = 0
+jumping = False
+
+floor = pygame.Rect(0, HEIGHT - 15, WIDTH, 10)
+platforms = [
+    pygame.Rect(3 * TILE_SIZE, HEIGHT - 4 * TILE_SIZE, 5 * TILE_SIZE, 10),   
+    pygame.Rect(9 * TILE_SIZE, HEIGHT - 7 * TILE_SIZE, 5 * TILE_SIZE, 10),   
+    pygame.Rect(15 * TILE_SIZE, HEIGHT - 10 * TILE_SIZE, 5 * TILE_SIZE, 10), 
+]
+
+fruits = [
+    pygame.Rect(4 * TILE_SIZE, HEIGHT - 5 * TILE_SIZE, 30, 30), 
+    pygame.Rect(10 * TILE_SIZE, HEIGHT - 8 * TILE_SIZE, 30, 30), 
+    pygame.Rect(16 * TILE_SIZE, HEIGHT - 11 * TILE_SIZE, 30, 30) 
+]
+
+total_fruits = len(fruits)
+collected_fruits = 0
+
+enemies = [
+    pygame.Rect(5 * TILE_SIZE, HEIGHT - 5 * TILE_SIZE, 40, 40),  
+    pygame.Rect(11 * TILE_SIZE, HEIGHT - 8 * TILE_SIZE, 40, 40), 
+]
+enemy_directions = [1, -1]
+enemy_range = [
+    (3 * TILE_SIZE, 7 * TILE_SIZE),
+    (9 * TILE_SIZE, 13 * TILE_SIZE)
+]
+
+lives = 3
+game_over = False
+win = False
+
+double_jump_timer = 0
+DOUBLE_JUMP_DELAY = 400  
+jump_pressed_time = 0
+
+dj_sound.play(loops=-1)  
+show_start_screen()
+show_character_selection_screen()
+
+player_right_frames = character_sets[selected_character_index]["run"]
+player_left_frames = [pygame.transform.flip(frame, True, False) for frame in player_right_frames]
+double_jump_frames = character_sets[selected_character_index]["jump"]
+  
+
+current_level_index = 0
+platforms, walls, fruits, enemies, enemy_ranges,platform_movements = load_level(current_level_index)
+import copy  
+original_level_data = copy.deepcopy(levels[current_level_index])
+enemy_directions = [1 for _ in enemies]
+collected_fruits = 0
+total_fruits = len(fruits)
