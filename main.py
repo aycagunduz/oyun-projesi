@@ -625,3 +625,77 @@ while True:
                 else:
                     win = True
 
+    if game_over:
+        screen.fill(BLACK)
+        screen.blit(full_game_over_image, (0, 0))
+
+        big_font = pygame.font.Font("assets/font/PixelEmulator3.otf", 80)
+        game_over_text = big_font.render("GAME OVER!", True, RED)
+        game_over_text_rect = game_over_text.get_rect(center=(WIDTH // 2, HEIGHT // 4))
+        screen.blit(game_over_text, game_over_text_rect)
+
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+        continue
+
+
+    if win:
+        screen.fill(WHITE)
+        win_image = pygame.image.load("assets/background/You win.png")
+        win_image = pygame.transform.scale(win_image, (WIDTH, HEIGHT))  
+        screen.blit(win_image, (0, 0))
+
+        big_font = pygame.font.Font("assets/font/PixelEmulator3.otf", 80)
+        win_text = big_font.render("YOU WIN!", True, WHITE)
+        win_text_rect = win_text.get_rect(center=(WIDTH // 2, HEIGHT // 4))
+        screen.blit(win_text, win_text_rect)
+        small_font = pygame.font.Font("assets/font/PixelEmulator3.otf", 30)
+
+        pygame.display.flip()
+
+        waiting = True
+        while waiting:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_q:
+                        pygame.quit()
+                        sys.exit()
+                    elif event.key == pygame.K_r:
+                        # Oyunu yeniden başlat
+                        current_level_index = 0
+                        platforms, walls, fruits, enemies, enemy_ranges, platform_movements = load_level(current_level_index)
+                        enemy_directions = [1 for _ in enemies]
+                        player.x, player.y = 1 * TILE_SIZE, HEIGHT - 3 * TILE_SIZE
+                        collected_fruits = 0
+                        total_fruits = len(fruits)
+                        game_over = False
+                        win = False
+                        waiting = False  
+
+    keys = pygame.key.get_pressed()
+
+    if keys[pygame.K_LEFT]:
+        player.x -= player_speed
+        player_direction_right = False
+    if keys[pygame.K_RIGHT]:
+        player.x += player_speed
+        player_direction_right = True
+
+    if player.left < 0:
+        player.left = 0
+    if player.right > WIDTH:
+        player.right = WIDTH
+    for i, movement in enumerate(platform_movements):
+        if movement:
+            plat = platforms[i]
+            plat.x += movement["direction"] * movement["speed"]
+            if plat.x < movement["range"][0] or plat.x + plat.width > movement["range"][1]:
+                movement["direction"] *= -1
+
