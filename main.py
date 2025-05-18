@@ -912,6 +912,45 @@ while True:
         frame_index = int(player_frame_index)
         screen.blit(double_jump_frames[frame_index], (player.x, player.y))
 
+    elif keys[pygame.K_LEFT] or keys[pygame.K_RIGHT]:
+       
+        if player_direction_right:
+            screen.blit(player_right_frames[int(player_frame_index) % len(player_right_frames)], (player.x, player.y))
+        else:
+            screen.blit(player_left_frames[int(player_frame_index) % len(player_left_frames)], (player.x, player.y))
+    else:
+        if player_direction_right:
+            screen.blit(player_right_frames[0], (player.x, player.y))
+        else:
+            screen.blit(player_left_frames[0], (player.x, player.y))
+
+    if current_level_index == 1:
+        current_fruit = apple_frames[int(carrot_frame_index) % len(apple_frames)]
+    elif current_level_index == 2:
+        current_fruit = strawberry_frames[int(carrot_frame_index) % len(strawberry_frames)]
+    else:
+        current_fruit = carrot_frames[int(carrot_frame_index) % len(carrot_frames)]
+    for fruit in fruits:
+        screen.blit(current_fruit, (fruit.x, fruit.y))
+ 
+    for i, enemy in enumerate(enemies):
+        if current_level_index == 1:
+            if enemy_directions[i] > 0:
+                current_enemy_frame = chicken_right_frames[int(enemy_frame_index) % len(chicken_right_frames)]
+            else:
+                current_enemy_frame = chicken_left_frames[int(enemy_frame_index) % len(chicken_left_frames)]
+        elif current_level_index == 2:  
+            if enemy_directions[i] < 0:
+                current_enemy_frame = new_enemy_run_frames[int(enemy_frame_index) % len(new_enemy_run_frames)]
+            else:
+                current_enemy_frame = new_enemy_left_frames[int(enemy_frame_index) % len(new_enemy_left_frames)]
+        else:  
+            if enemy_directions[i] > 0:
+                current_enemy_frame = enemy_right_frames[int(enemy_frame_index) % len(enemy_right_frames)]
+            else:
+                current_enemy_frame = enemy_left_frames[int(enemy_frame_index) % len(enemy_left_frames)]
+        screen.blit(current_enemy_frame, (enemy.x, enemy.y))
+
     
 
 
