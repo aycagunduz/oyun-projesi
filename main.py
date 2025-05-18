@@ -951,6 +951,42 @@ while True:
                 current_enemy_frame = enemy_left_frames[int(enemy_frame_index) % len(enemy_left_frames)]
         screen.blit(current_enemy_frame, (enemy.x, enemy.y))
 
+    MARGIN_X = TILE_SIZE + 10  
+    MARGIN_Y = TILE_SIZE + 10  
+
     
+    for i in range(lives):
+        screen.blit(heart_image, (MARGIN_X + i * 40, MARGIN_Y))
+
+    
+    icon_x = MARGIN_X
+    icon_y = MARGIN_Y + 40  
+
+    
+    BIG_FRUIT_SIZE = 60
+
+    if current_level_index == 1:
+        icon_frame = pygame.transform.scale(apple_frames[int(carrot_frame_index) % len(apple_frames)], (BIG_FRUIT_SIZE, BIG_FRUIT_SIZE))
+    elif current_level_index == 0:
+        icon_frame = pygame.transform.scale(carrot_frames[int(carrot_frame_index) % len(strawberry_frames)], (BIG_FRUIT_SIZE, BIG_FRUIT_SIZE))
+    else:
+        icon_frame = pygame.transform.scale(carrot_frames[int(carrot_frame_index) % len(carrot_frames)], (BIG_FRUIT_SIZE, BIG_FRUIT_SIZE))
+    screen.blit(icon_frame, (icon_x, icon_y))
+    
+    
+    fruit_text = font.render(f"{collected_fruits} / {total_fruits}", True, BLACK)
+    screen.blit(fruit_text, (icon_x + BIG_FRUIT_SIZE + 5, icon_y + 5))
+
+
+    
+    if player.colliderect(flag) and fruits:
+        info_text = font.render("", True, WHITE)
+        screen.blit(info_text, (WIDTH // 2 - info_text.get_width() // 2, HEIGHT // 2 - 50))
+
+    if current_level_index == 2:
+        draw_darkness_overlay(player) 
+    pygame.display.update()
+    clock.tick(FPS)
+
 
 
