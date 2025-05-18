@@ -159,7 +159,8 @@ except pygame.error as e:
     print(f"Görseller yüklenemedi: {e}")
     pygame.quit()
     sys.exit()
-    jump_sound = pygame.mixer.Sound("assets\sound\jump_01.wav")
+    
+jump_sound = pygame.mixer.Sound("assets\sound\jump_01.wav")
 dj_sound = pygame.mixer.Sound("assets\sound\dj.ogg")
 
 jump_sound.set_volume(1.0) 
