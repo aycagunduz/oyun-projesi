@@ -861,3 +861,57 @@ while True:
         screen.blit(dark_background, (0, 0))
     else:
         screen.blit(game_background, (0, 0))
+    
+    for plat in platforms:
+        if current_level_index == 1:
+            for row in range(plat.height // TILE_SIZE):
+                for col in range(plat.width // TILE_SIZE):
+                    if row == 0: 
+                        tile = green_tile_image
+                    else:  
+                        tile = brown_tile_image
+                    screen.blit(tile, (plat.x + col * TILE_SIZE, plat.y + row * TILE_SIZE))
+        elif current_level_index == 0:  
+            for x in range(plat.x, plat.x + plat.width, TILE_SIZE):
+                screen.blit(platform_tile_image, (x, plat.y))
+        elif current_level_index == 2:
+            for col in range(plat.width // TILE_SIZE):
+                draw_tunnel_platform(plat)
+                    
+    draw_frame(screen)
+
+    RIGHT_MARGIN_X = WIDTH - TILE_SIZE + 10
+    TOP_MARGIN_Y = TILE_SIZE + 10
+
+    level_text = font.render(f"Level {current_level_index + 1}", True, BLACK)
+    level_text_rect = level_text.get_rect(topright=(RIGHT_MARGIN_X - 10, TOP_MARGIN_Y))
+    screen.blit(level_text, level_text_rect)
+
+    home_x = RIGHT_MARGIN_X - home_button_image.get_width() - 10
+
+    restart_x = home_x - restart_button_image.get_width() - 10
+    screen.blit(home_button_image, (home_x, TOP_MARGIN_Y + 40))
+    screen.blit(restart_button_image, (restart_x, TOP_MARGIN_Y + 40))
+
+    next_level_x = restart_x - next_level_button_image.get_width() - 10
+    screen.blit(next_level_button_image, (next_level_x, TOP_MARGIN_Y + 40))
+    next_level_button_rect.topleft = (next_level_x, TOP_MARGIN_Y + 40)
+
+    home_button_rect.topleft = (home_x, TOP_MARGIN_Y + 40)
+    restart_button_rect.topleft = (restart_x, TOP_MARGIN_Y + 40)
+
+    flag_frame_index += flag_animation_speed
+    if flag_frame_index >= len(flag_frames):
+        flag_frame_index = 0
+    screen.blit(flag_frames[int(flag_frame_index)], (flag.x, flag.y))
+
+    if jump_count == 2:
+        player_frame_index += player_animation_speed
+        if player_frame_index >= len(double_jump_frames):
+            player_frame_index = 0
+        frame_index = int(player_frame_index)
+        screen.blit(double_jump_frames[frame_index], (player.x, player.y))
+
+    
+
+
